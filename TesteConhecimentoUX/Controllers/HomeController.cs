@@ -31,7 +31,6 @@ namespace TesteConhecimentoUX.Controllers
             DateTime dataNascimento = Convert.ToDateTime(form[1]);
             string telefone = form[2];
             int pacote = Convert.ToInt32(form[3].ToString().Replace("pacote+",""));
-            //decimal pacote = Convert.ToDecimal(form[1]);
 
             
             Participante participante = new Participante 
@@ -39,7 +38,6 @@ namespace TesteConhecimentoUX.Controllers
                 Nome = nome,
                 DataNascimento = dataNascimento,
                 Telefone = telefone,
-                
             };
 
 
