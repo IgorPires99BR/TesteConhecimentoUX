@@ -30,16 +30,20 @@ namespace TesteConhecimentoUX.Controllers
             string nome = form[0];
             DateTime dataNascimento = Convert.ToDateTime(form[1]);
             string telefone = form[2];
-            decimal pacote = Convert.ToDecimal(form[1]);
+            int pacote = Convert.ToInt32(form[3].ToString().Replace("pacote+",""));
+            //decimal pacote = Convert.ToDecimal(form[1]);
 
-
-            new Participante 
+            
+            Participante participante = new Participante 
             {
                 Nome = nome,
                 DataNascimento = dataNascimento,
-                Telefone = telefone
+                Telefone = telefone,
+                
             };
 
+
+            db.Participante.Add(participante);
             db.SaveChanges(); 
 
             return RedirectToAction("Index");

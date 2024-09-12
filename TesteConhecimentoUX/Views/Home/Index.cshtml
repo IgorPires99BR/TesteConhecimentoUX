@@ -22,7 +22,7 @@
                 <select class="form-control" placeholder="Selecione seu pacote">
                     @foreach (TesteConhecimentoUX.Models.Pacote pacote in ViewBag.Pacotes)
                     {
-                        <option name="Pacote" value="@pacote.CodPacote">@pacote.Descricao</option>
+                        <option name="Pacote+@pacote.CodPacote" value="@pacote.CodPacote">@pacote.Descricao</option>
                     }
                 </select>
             </div>
@@ -30,7 +30,7 @@
                 <label for="Atividade">Atividades:</label><br />
                 @foreach(TesteConhecimentoUX.Models.Atividade atividade in ViewBag.Atividades)
                 {
-                    <input type="checkbox" />@atividade.DescAtv<br/> 
+                    <input type="checkbox" name="Atividade+@atividade.CodAtividade" />@atividade.DescAtv<br/> 
                 }
 
             </div>
