@@ -5,15 +5,17 @@ using System.Linq;
 
 namespace TesteConhecimentoUX.Models
 {
-    public partial class ModeloBanco : DbContext
+    public partial class Model1 : DbContext
     {
-        public ModeloBanco()
-            : base("name=ModeloBanco")
+        public Model1()
+            : base("name=Model1")
         {
         }
 
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<Atividade> Atividade { get; set; }
+        public virtual DbSet<AxParticipanteAtividade> AxParticipanteAtividade { get; set; }
+        public virtual DbSet<AxParticipantePacote> AxParticipantePacote { get; set; }
         public virtual DbSet<Pacote> Pacote { get; set; }
         public virtual DbSet<Participante> Participante { get; set; }
 

@@ -19,10 +19,10 @@
             </div>
             <div class="form-group">
                 <label for="Pacote">Pacote</label>
-                <select class="form-control" placeholder="Selecione seu pacote">
+                <select class="form-control" name="pacote" placeholder="Selecione seu pacote">
                     @foreach (TesteConhecimentoUX.Models.Pacote pacote in ViewBag.Pacotes)
                     {
-                        <option name="Pacote+@pacote.CodPacote" value="@pacote.CodPacote">@pacote.Descricao</option>
+                        <option value="@pacote.CodPacote">@pacote.Descricao</option>
                     }
                 </select>
             </div>
@@ -30,7 +30,7 @@
                 <label for="Atividade">Atividades:</label><br />
                 @foreach(TesteConhecimentoUX.Models.Atividade atividade in ViewBag.Atividades)
                 {
-                    <input type="checkbox" name="Atividade+@atividade.CodAtividade" />@atividade.DescAtv<br/> 
+                    <input type="checkbox" name="Atividade" value="@atividade.CodAtividade" />@atividade.DescAtv<br/> 
                 }
 
             </div>
