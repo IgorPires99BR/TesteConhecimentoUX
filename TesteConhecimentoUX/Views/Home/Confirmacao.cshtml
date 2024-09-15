@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Confirmacao";
+}
+
+@model TesteConhecimentoUX.Models.Participante
+
+<main>
+    <h2>Confirme os Dados</h2>
+    <dl class="dl-horizontal">
+        <dt>Nome</dt>
+        <dd>@Model.Nome</dd>
+
+        <dt>Data de Nascimento</dt>
+        <dd>@Model.DataNascimento</dd>
+
+        <dt>Telefone</dt>
+        <dd>@Model.Telefone</dd>
+
+        <dt>Pacote Selecionado</dt>
+        <dd>@TesteConhecimentoUX.Helper.Helper.AplicaEnum(Model.nomePacote)</dd>
+
+        <dt>Atividades Selecionadas</dt>
+        <dd>
+            <ul>
+                @foreach (TesteConhecimentoUX.Models.Participante.EnumAtividade atividade in Model.nomeAtividades)
+                {
+                    <li>@TesteConhecimentoUX.Helper.Helper.AplicaEnum(atividade)</li>
+                }
+            </ul>
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm("Salvar", "Home", FormMethod.Post))
+    {
+        @Html.HiddenFor(model => model.Nome)
+        @Html.HiddenFor(model => model.DataNascimento)
+        @Html.HiddenFor(model => model.Telefone)
+        @Html.HiddenFor(model => model.pacote)
+        for (var i = 0; i < Model.atividades.Count; i++)
+        {
+            @Html.HiddenFor(model => model.atividades[i])
+        }
+
+        <button type="submit" class="btn btn-primary">Confirmar</button>
+    }
+
+    <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Voltar</a>
+</main>

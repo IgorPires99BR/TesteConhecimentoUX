@@ -42,6 +42,12 @@ namespace TesteConhecimentoUX.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Participante>()
+              .Ignore(e => e.pacote);
+
+            modelBuilder.Entity<Participante>()
+              .Ignore(e => e.nomePacote);
+
+            modelBuilder.Entity<Participante>()
                 .Property(e => e.Telefone)
                 .IsUnicode(false);
         }

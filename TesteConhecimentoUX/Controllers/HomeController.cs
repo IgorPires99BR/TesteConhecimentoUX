@@ -5,6 +5,7 @@ using System.Net.NetworkInformation;
 using System.Web;
 using System.Web.Mvc;
 using TesteConhecimentoUX.Models;
+using static TesteConhecimentoUX.Models.Participante;
 
 namespace TesteConhecimentoUX.Controllers
 {
@@ -25,26 +26,8 @@ namespace TesteConhecimentoUX.Controllers
         }
 
         [HttpPost]
-        public ActionResult Salvar(FormCollection form)
+        public ActionResult Salvar(Participante participante)
         {
-            string nome = form[0];
-            DateTime dataNascimento = Convert.ToDateTime(form[1]);
-            string telefone = form[2];
-            int pacote = Convert.ToInt32(form[3].ToString().Replace("pacote+", ""));
-            string[] atividades =  new string[0];
-
-            if(form.AllKeys.Count() > 4)
-            {
-               atividades = form.GetValues("Atividade");
-            }
-
-            Participante participante = new Participante
-            {
-                Nome = nome,
-                DataNascimento = dataNascimento,
-                Telefone = telefone,
-            };
-
             db.Participante.Add(participante);
             db.SaveChanges();
 
@@ -55,14 +38,14 @@ namespace TesteConhecimentoUX.Controllers
                 AxParticipantePacote axParticipantePacote = new AxParticipantePacote()
                 {
                     codParticipante = participanteSalvoBanco.codPar,
-                    codPacote = pacote
+                    codPacote = participante.pacote
                 };
 
                 db.AxParticipantePacote.Add(axParticipantePacote);
                 db.SaveChanges();
             }
 
-            foreach (string atividade in atividades)
+            foreach (int atividade in participante.atividades)
             {
                 AxParticipanteAtividade axParticipanteAtividade = new AxParticipanteAtividade()
                 {
@@ -77,5 +60,40 @@ namespace TesteConhecimentoUX.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Confirmacao(FormCollection form)
+        {
+            string nome = form[0];
+            DateTime dataNascimento = Convert.ToDateTime(form[1]);
+            string telefone = form[2];
+            int pacote = Convert.ToInt32(form[3].ToString().Replace("pacote+", ""));
+
+            string[] atividades = new string[0];
+            List<int> listaAtividades = new List<int>();
+            List<EnumAtividade> EnumAtividades = new List<EnumAtividade>();
+
+            if (form.AllKeys.Count() > 4)
+            {
+                atividades = form.GetValues("Atividade");
+            }
+
+            foreach (string atividade in atividades)
+            {
+                listaAtividades.Add(Convert.ToInt32(atividade));
+                EnumAtividades.Add((EnumAtividade)Convert.ToInt32(atividade));
+            }
+
+            Participante participante = new Participante
+            {
+                Nome = nome,
+                DataNascimento = dataNascimento,
+                Telefone = telefone,
+                pacote = pacote,
+                atividades = listaAtividades,
+                nomePacote = (EnumPacote)pacote,
+                nomeAtividades = EnumAtividades
+            };
+
+            return View("Confirmacao", participante);
+        }
     }
 }
