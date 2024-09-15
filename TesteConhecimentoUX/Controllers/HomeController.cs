@@ -28,33 +28,47 @@ namespace TesteConhecimentoUX.Controllers
         [HttpPost]
         public ActionResult Salvar(Participante participante)
         {
+            decimal valorPacote = participante.pacote == 1 ? 220 : 400 ;
             db.Participante.Add(participante);
             db.SaveChanges();
 
             Participante participanteSalvoBanco = db.Participante.ToList().LastOrDefault();
 
+            DateTime DataValidacao = new DateTime(2024, 10, 03);
+            DateTime DataAtual = DateTime.Now.Date;
+
             if(participanteSalvoBanco != null)
             {
+                if(DataAtual > DataValidacao)
+                {
+                    valorPacote = 500;
+                }
+
                 AxParticipantePacote axParticipantePacote = new AxParticipantePacote()
                 {
                     codParticipante = participanteSalvoBanco.codPar,
-                    codPacote = participante.pacote
+                    codPacote = participante.pacote,
+                    precoPacote = valorPacote
                 };
 
                 db.AxParticipantePacote.Add(axParticipantePacote);
                 db.SaveChanges();
             }
 
-            foreach (int atividade in participante.atividades)
+            if(participante.atividades != null)
             {
-                AxParticipanteAtividade axParticipanteAtividade = new AxParticipanteAtividade()
+                foreach (int atividade in participante.atividades)
                 {
-                    CodParticipante = participanteSalvoBanco.codPar,
-                    CodAtividade = Convert.ToInt32(atividade)
-                };
+                    AxParticipanteAtividade axParticipanteAtividade = new AxParticipanteAtividade()
+                    {
+                        CodParticipante = participanteSalvoBanco.codPar,
+                        CodAtividade = Convert.ToInt32(atividade)
+                    };
 
-                db.AxParticipanteAtividade.Add(axParticipanteAtividade);
-                db.SaveChanges();
+                    db.AxParticipanteAtividade.Add(axParticipanteAtividade);
+                    db.SaveChanges();
+                }
+
             }
 
             return RedirectToAction("Index");

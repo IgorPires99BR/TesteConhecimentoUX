@@ -15,5 +15,6 @@ namespace TesteConhecimentoUX.Models
         public int? codParticipante { get; set; }
 
         public int? codPacote { get; set; }
+        public decimal? precoPacote { get; set; }
     }
 }
